@@ -1,0 +1,89 @@
+{% extends 'formulario.html' %}
+{% load static %}
+
+{% block controls %}
+    <form action="post" >
+      {% csrf_token %}
+       <form class="row g-3 needs-validation shadow-lg p-3 mb-5 bg-body rounded">
+           <input type="hidden" name="action" value="{{ action }}">
+            <div class="col-md-2 ">
+                <label for="solicitud"><h6>Empleado</h6></label>
+                  {{ form.empleado }}
+              </div>
+              <div class="col-md-2">
+                <label for="fecha"><h6>Empresa</h6></label>
+                {{ form.empresa }}
+              </div>
+              <div class="col-md-2">
+                <label for="solicitud"><h6>Motivo</h6></label>
+                  {{ form.motivo }}
+            </div>
+            <div class="col-md-2">
+              <label for="monto" ><h6>Monto Solicitado</h6></label>
+              {{ form.capital }}
+            </div>
+            <div class="col-md-2">
+              <label for="cuota"><h6>Cuotas</h6></label>
+              {{ form.cuotas }}
+            </div>
+            <div class="col-md-2">
+              <label for="cuota"><h6>Interes</h6></label>
+              {{ form.interes }}
+            </div>
+           <div class="col-md-4">
+              <label for="cuota"><h6>Fecha</h6></label>
+              {{ form.fecha }}
+            </div>
+            <div class="col-md-4">
+              <label for="cuota"><h6>Total Interes</h6></label>
+              {{ form.totalinteres }}
+            </div>
+            <div class="col-md-4">
+              <label for="cuota"><h6>Total</h6></label>
+              {{ form.total }}
+            </div>
+        </form>
+        <hr class="border border-2">
+        <div class="container col-md-9">
+          <button type="button" class="btn btn-secondary form-control" id="btnArticulos" onclick="gen_table();"><h5>Cuotas</h5></button>
+          <table class="table table-bordered" id="data">
+              <thead>
+                <tr>
+                  <th>NRO</th>
+                  <th>FECHA</th>
+                  <th>CAPITAL</th>
+                  <th>INTERES</th>
+                  <th>PAGO MENSUAL</th>
+                  <th>SALDO</th>
+                </tr>
+              </thead>
+              <tbody class="text-center" id="tab">
+             </tbody>
+             <tfoot class="text-center">
+               <tr>
+                   <td class="ft">TOTAL</td>
+                   <td></td>
+                   <td id="totalcapital"></td>
+                   <td id="totalinteres"></td>
+                   <td id="totalpagar"></td>
+                   <td></td>
+               </tr>
+           </tfoot>
+          </table>
+
+        </div>
+    </form>
+{% endblock %}
+{% block js %}
+    <script  type="text/javascript" >
+      var save = '{{ action_save }}'
+      var detfac = {{ detalle|safe }}
+      console.log(detfac)
+   </script>
+    <script src="{% static 'javascript/prestamo.js' %}"> </script>
+    <script src="{% static 'javascript/moment.js' %}"> </script>
+{% endblock %}
+
+
+
+

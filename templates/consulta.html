@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block main %}
+
+    <div class="container card card-primary">
+        <div class="card-header" >
+            <h3 class="card-title text-secondary text-center ">
+                {{ titulo }}
+            </h3>
+        </div>
+        <div class="card-body table-responsive">
+            {% block search %}
+
+            {% endblock %}
+
+            <table class="table table-bordered" id="data">
+                <thead>
+                {% block columns %}
+
+                {% endblock %}
+                </thead>
+                <tbody>
+                {% block rows %}
+
+                {% endblock %}
+                </tbody>
+                <tfoot>
+                </tfoot>
+            </table>
+            {% block pagination %}
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center mt-5">
+
+                        {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">previous</a>
+                            </li>
+                        {% endif %}
+
+                        {% for i in page_obj.paginator.page_range %}
+
+                            {% if i == page_obj.number %}
+                                <li class="page-item active">
+                                    <a class="page-link" href="#">{{ i }}</a>
+                                </li>
+                            {% else %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                                </li>
+                            {% endif %}
+
+                        {% endfor %}
+
+                        {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.next_page_number }}">next</a>
+                            </li>
+                        {% endif %}
+
+                    </ul>
+                </nav>
+            {% endblock %}
+
+        </div>
+        <div class="card-footer">
+            {% block buttons_list %}
+
+                <a href="{{ crear_url }}" class="btn  btn-primary btnTest">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                    </svg>
+                    Nuevo registro
+                </a>
+                <a href="{{ listar_url }}" class="btn btn-success btn-flat">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                      <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+                      <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+                    </svg>
+                    Actualizar
+                </a>
+            {% endblock %}
+        </div>
+    </div>
+{% endblock %}
