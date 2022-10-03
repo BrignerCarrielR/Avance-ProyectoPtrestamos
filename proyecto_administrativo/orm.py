@@ -107,12 +107,13 @@ from django.template.loader import get_template
 
 def impresion():
     template= get_template("factur.html")
-    clientes = get_clientes()
-    context={"titulo":"LISTADO DE CLIENTES","clientes":clientes}
+    lisempleados = get_clientes()
+    context={"titulo":"LISTADO DE CLIENTES","lisempleados":lisempleados}
     html_template = template.render(context)
-    HTML(string=html_template).write_pdf(target="clientes.pdf")
+    HTML(string=html_template).write_pdf(target="prueba2.pdf")
 
 def get_clientes():
-    clientes = Cliente.objects.all()
-    return clientes
+    lisempleados = Cliente.objects.all()
+    return lisempleados
 impresion()
+

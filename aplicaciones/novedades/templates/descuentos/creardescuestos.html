@@ -2,82 +2,62 @@
 {% load static %}
 
 {% block controls %}
-    <form>
+    <form action="post" >
       {% csrf_token %}
-        {% if form.errors %}
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-          <strong>Error al Grabar</strong> {{ form.errors }}
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-    {% endif %}
        <form class="row g-3 needs-validation shadow-lg p-3 mb-5 bg-body rounded">
            <input type="hidden" name="action" value="{{ action }}">
             <div class="col-md-2 ">
                 <label for="solicitud"><h6>Empleado</h6></label>
                   {{ form.empleado }}
               </div>
-              <div class="col-md-2">
+              <div class="col-md-3">
                 <label for="fecha"><h6>Empresa</h6></label>
                 {{ form.empresa }}
               </div>
-              <div class="col-md-2">
+              <div class="col-md-4">
                 <label for="solicitud"><h6>Motivo</h6></label>
                   {{ form.motivo }}
             </div>
-            <div class="col-md-2">
-              <label for="monto" ><h6>Monto Solicitado</h6></label>
-              {{ form.capital }}
-            </div>
-            <div class="col-md-2">
-              <label for="cuota"><h6>Cuotas</h6></label>
-              {{ form.cuotas }}
-            </div>
-            <div class="col-md-2">
-              <label for="cuota"><h6>Interes (%)</h6></label>
-              {{ form.interes }}
-            </div>
-           <div class="col-md-3">
-              <label for="cuota"><h6>Fecha</h6></label>
+            <div class="col-md-3">
+              <label for="monto" ><h6>Fecha</h6></label>
               {{ form.fecha }}
             </div>
            <div class="col-md-3">
               <label for="cuota"><h6>Fecha de inicio Pago</h6></label>
               {{ form.fechainicio }}
             </div>
-            <div class="col-md-3">
-              <label for="cuota"><h6>Total Interes</h6></label>
-              {{ form.totalinteres }}
+           <div class="col-md-3">
+              <label for="cuota"><h6>Precio</h6></label>
+              {{ form.precio }}
             </div>
             <div class="col-md-3">
-              <label for="cuota"><h6>Total</h6></label>
-              {{ form.total }}
+              <label for="cuota"><h6>Cuotas</h6></label>
+              {{ form.cuotas }}
+            </div>
+            <div class="col-md-3">
+              <label for="cuota"><h6>Valor Cuota</h6></label>
+              {{ form.valorcuota }}
             </div>
         </form>
         <hr class="border border-2">
         <div class="container col-md-9">
-          <button type="button" class="btn btn-secondary form-control" id="btnArticulos" onclick="prestamo();"><h5>Calcular</h5></button>
+          <button type="button" class="btn btn-secondary form-control" id="btnArticulos" onclick="caldescuentos();"><h5>Calcular</h5></button>
           <table class="table table-bordered" id="data">
               <thead>
                 <tr>
                   <th>NRO</th>
                   <th>FECHA</th>
-                  <th>CAPITAL</th>
-                  <th>INTERES</th>
                   <th>PAGO MENSUAL</th>
                   <th>SALDO</th>
                 </tr>
               </thead>
-              <tbody class="text-center" id="tab">
+              <tbody class="text-center" id="tabla">
              </tbody>
              <tfoot class="text-center">
                <tr>
-                   <td class="ft">TOTAL</td>
+                   <th scope="row">Total</th>
                    <td></td>
-                   <td id="totalcapital"></td>
-                   <td id="totalinteres"></td>
-                   <td id="totalpagar"></td>
+                   <td id="totalpagos"></td>
                    <td></td>
                </tr>
            </tfoot>
@@ -92,10 +72,6 @@
       var detfac = {{ detalle|safe }}
       console.log(detfac)
    </script>
-    <script src="{% static 'javascript/prestamo.js' %}"> </script>
+    <script src="{% static 'javascript/descuentos.js' %}"> </script>
     <script src="{% static 'javascript/moment.js' %}"> </script>
 {% endblock %}
-
-
-
-

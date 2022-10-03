@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PDF LISTA PRESTAMOS</title>
+    <style>
+        table.mas {
+            border-radius: 3px;
+            width: 300px;
+            height: 80px;
+            margin: auto;
+        }
+        th{
+            color: #D5DDE5;
+            background-color: dimgrey;
+            border-bottom: 4px solid #9ea7af;
+            border-right: 1px solid #343a45;
+            font-size:50px;
+            font-weight: 100;
+            padding: 24px;
+            text-align: center;
+            text-shadow: 0 1px 1px rgba(0,0,0,0.1);
+        }
+        tr{
+            border-top: 1px solid #C1c3d1;
+            border-bottom: 1px solid #C1c3d1;
+            color: #666b85;
+            font-size: 12px;
+            font-weight: normal;
+            text-align: center;
+            text-shadow: 0 1px 1px rgba(256,256,256,0.1);
+        }
+        h1{
+            text-align: center;
+            color: dimgrey;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+        <h1>LISTA DE PRESTAMOS</h1>
+        <table class="mas">
+        <thead>
+        <tr >
+            <th scope="col" style="width: 10%;">Nro</th>
+            <th>Fecha</th>
+            <th>Empleado</th>
+            <th>Empresa</th>
+            <th>Cuotas</th>
+            <th>Capital</th>
+            <th>Interes</th>
+            <th>Total</th>
+        </tr>
+        </thead>
+        <tbody>
+           {% for object in lisprestamos %}
+              <tr class="align-middle" >
+                      <td>{{ object.id }}</td>
+                      <td>{{ object.fecha|date:"d/m/Y" }}</td>
+                      <td>{{ object.empleado }}</td>
+                      <td>{{ object.empresa }}</td>
+                      <td>{{ object.cuotas }}</td>
+                      <td>{{ object.capital }}</td>
+                      <td>{{ object.totalinteres }}</td>
+                      <td>{{ object.total }}</td>
+                </tr>
+          {% endfor %}
+        </tbody>
+     </table>
+</body>
+</html>

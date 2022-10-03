@@ -24,9 +24,9 @@ class Empleado(Base):
         return "{}".format(self.nombres)
 
 class Empresas(Base):
-    nombre = models.CharField(max_length=30,blank=True, null=True)
-    direccion = models.CharField(max_length=100,blank=True, null=True)
-    ruc = models.CharField(max_length=10,blank=True,null=True)
+    nombre = models.CharField(max_length=30,)
+    direccion = models.CharField(max_length=100,)
+    ruc = models.CharField(max_length=10)
 
     class Meta:
         verbose_name = "Empresa"
@@ -38,18 +38,19 @@ class Empresas(Base):
 
 class FacturaPrestamo(models.Model):
     id = models.AutoField(primary_key=True)
-    capital = models.FloatField(blank=False, null=True)
+    capital = models.FloatField(blank=False, null=True ,default=0)
     motivo = models.CharField(max_length=1, choices=MOTIVO,default=MOTIVO[0][0], blank=True, null=True)
-    cuotas = models.IntegerField(blank=False, null=True)
-    interes = models.FloatField(blank=False, null=True)
-    empleado = models.ForeignKey(Empleado, on_delete=models.PROTECT)
-    empresa = models.ForeignKey(Empresas, on_delete=models.PROTECT)
-    totalinteres = models.FloatField(blank=False, null=True)
-    total =models.FloatField(blank=False, null=True)
+    cuotas = models.IntegerField(blank=False, null=True,default=1)
+    interes = models.FloatField(blank=False, null=True,default=10)
+    empleado = models.ForeignKey(Empleado, on_delete=models.CASCADE,unique=True)
+    empresa = models.ForeignKey(Empresas, on_delete=models.CASCADE)
+    totalinteres = models.FloatField(blank=False, null=True, default=0)
+    total =models.FloatField(blank=False, null=True, default=0)
     fecha = models.DateField(default=now, blank=False, null=True)
+    fechainicio= models.DateField(blank=False, null=True)
     class Meta:
-        verbose_name = "Cliente"
-        verbose_name_plural = "Clientes"
+        verbose_name = "Prestamo"
+        verbose_name_plural = "Prestamos"
         ordering = ['id']
 
     def __str__(self):
@@ -57,13 +58,14 @@ class FacturaPrestamo(models.Model):
 
 class Descuentos(models.Model):
     id = models.AutoField(primary_key=True)
-    empleado = models.ForeignKey(Empleado, on_delete=models.PROTECT)
-    empresa = models.ForeignKey(Empresas, on_delete=models.PROTECT)
+    empleado = models.ForeignKey(Empleado, on_delete=models.CASCADE,unique=True)
+    empresa = models.ForeignKey(Empresas, on_delete=models.CASCADE)
     motivo = models.CharField(max_length=100,blank=True, null=True)
     fecha = models.DateField(default=now, blank=False, null=True)
+    fechainicio = models.DateField(blank=False, null=True)
     precio = models.FloatField(blank=False, null=True)
     cuotas = models.IntegerField(blank=False, null=True)
-    valorcuota = models.FloatField(blank=False, null=True)
+    valorcuota = models.FloatField(blank=False, null=True, default=0)
     class Meta:
         verbose_name = "Descuentos"
         verbose_name_plural = "Descuentos"

@@ -3,10 +3,12 @@ import json
 from django.db import transaction
 from django.http import JsonResponse
 from django.urls import reverse_lazy
+from django.views import View
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
 from aplicaciones.novedades.forms import PrestamoForm
 from aplicaciones.novedades.models import FacturaPrestamo
+from aplicaciones.novedades.utils import generar_pdf
 
 
 class lisPrestamos(ListView):
@@ -19,9 +21,19 @@ class lisPrestamos(ListView):
         context['url_anterior'] = '/novedades/menunovedades'
         context['listar_url'] = ''
         context['crear_url'] = '/novedades/crearprestamos'
+        context['imprimir_url'] = '/novedades/pdf_prestamos'
         context['titulo'] = 'LISTADO DE PRESTAMOS'
         context['query'] = self.request.GET.get("query") or ""
         return context
+
+class ListaPrestamosPDF(View):
+    def get(self,request,*args,**kwargs):
+        lisprestamos=FacturaPrestamo.objects.all()
+        data={
+            'lisprestamos':lisprestamos
+        }
+        pdf = generar_pdf('prestamos/pdfprestamos.html',data)
+        return HttpResponse(pdf, content_type='application/pdf')
 
 class CrearPrestamo(CreateView):
     template_name = 'prestamos/crearprestamos.html'
@@ -49,6 +61,7 @@ class ActualizarPrestamo(UpdateView):
         context = super().get_context_data(**kwargs)
         context['action_save'] = self.request.path
         context['titulo'] = 'ACTUALIZAR PRESTAMO'
+        context['url_anterior'] = '/novedades/lisprestamos'
         context['listar_url'] = '/novedades/lisprestamos'
         return context
 
@@ -61,5 +74,6 @@ class EliminarPrestamo(DeleteView):
         context = super().get_context_data(**kwargs)
         context['action_save'] = self.request.path
         context['titulo'] = 'ELMINAR DE PRESTAMO'
+        context['url_anterior'] = '/novedades/lisprestamos'
         context['listar_url'] = '/novedades/lisprestamos'
         return context

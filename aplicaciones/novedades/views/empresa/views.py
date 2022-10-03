@@ -1,8 +1,12 @@
+from django.http import HttpResponse
 from django.urls import reverse_lazy
+from django.views import View
 
 from aplicaciones.novedades.models import Empresas
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from aplicaciones.novedades.forms import EmpleadoForm, EmpresaForm
+from aplicaciones.novedades.utils import generar_pdf
+
 
 class ListaEmpresaListView(ListView):
     template_name = "empresa/lisempresa.html"
@@ -22,9 +26,19 @@ class ListaEmpresaListView(ListView):
         context['url_anterior'] = '/novedades/menunovedades'
         context['listar_url']= '/novedades/lisempresa'
         context['crear_url'] = '/novedades/crearempresa'
+        context['imprimir_url'] = '/novedades/pdf_empresa'
         context['titulo'] = 'LISTADO DE EMPRESAS'
         context['query'] = self.request.GET.get("query") or ""
         return context
+
+class ListaempresaPDF(View):
+    def get(self,request,*args,**kwargs):
+        lisempresa=Empresas.objects.all()
+        data={
+            'lisempresa':lisempresa
+        }
+        pdf = generar_pdf('empresa/pdfempresa.html',data)
+        return HttpResponse(pdf, content_type='application/pdf')
 
 class CrearEmpresa(CreateView):
     model = Empresas
